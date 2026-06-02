@@ -47,4 +47,20 @@ export class ProcessMapsResource {
   async delete(id: string): Promise<void> {
     await this.http.request({ method: 'DELETE', path: `/process-maps/${id}` });
   }
+
+  /** Portable JSON export — paste into another env via `import()`. */
+  async export(id: string): Promise<unknown> {
+    const r = await this.http.request({ method: 'GET', path: `/process-maps/${id}/export` });
+    return r.data;
+  }
+
+  /** Import a previously-exported JSON into a project. */
+  async import(projectId: string, exportData: unknown): Promise<ProcessMap> {
+    const r = await this.http.request<ProcessMap>({
+      method: 'POST',
+      path: `/process-maps/import/${projectId}`,
+      body: exportData,
+    });
+    return r.data;
+  }
 }

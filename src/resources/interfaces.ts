@@ -63,4 +63,20 @@ export class InterfacesResource {
   async delete(id: string): Promise<void> {
     await this.http.request({ method: 'DELETE', path: `/interfaces/${id}` });
   }
+
+  /** Portable JSON export — paste into another env via `import()`. */
+  async export(id: string): Promise<unknown> {
+    const r = await this.http.request({ method: 'GET', path: `/interfaces/${id}/export` });
+    return r.data;
+  }
+
+  /** Import a previously-exported JSON into a project. */
+  async import(projectId: string, exportData: unknown): Promise<Interface> {
+    const r = await this.http.request<Interface>({
+      method: 'POST',
+      path: `/interfaces/import/${projectId}`,
+      body: exportData,
+    });
+    return r.data;
+  }
 }
