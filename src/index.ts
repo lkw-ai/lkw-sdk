@@ -37,3 +37,14 @@ export type { User, CreateUserInput, UpdateUserInput, UserRole, UserStatus } fro
 
 export { ApiKeysResource } from './resources/api-keys.js';
 export type { ApiKey, CreateApiKeyInput } from './resources/api-keys.js';
+
+export { InterfacesResource } from './resources/interfaces.js';
+export type { Interface, CreateInterfaceInput, UpdateInterfaceInput } from './resources/interfaces.js';
+
+export { ProcessMapsResource } from './resources/process-maps.js';
+export type { ProcessMap, CreateProcessMapInput } from './resources/process-maps.js';
+
+// Builders — fluent programmatic construction of workflows
+export { n, e, resetNodeIds } from './builders/node-builder.js';
+export type { Node, Edge } from './builders/node-builder.js';
+export { workflow, WorkflowBuilder } from './builders/workflow-builder.js';
