@@ -61,13 +61,53 @@ const lkw = new LkwClient({
 | :--- | :--- |
 | `lkw.auth` | `login`, `logout`, `verify`, `listSessions`, `revokeSession`, `logoutAll` |
 | `lkw.workflows` | `list`, `listTemplates`, `get`, `create`, `update`, `delete`, `execute`, `trigger` |
-| `lkw.executions` | `list`, `get`, `logs` |
+| `lkw.executions` | `list`, `get`, `logs`, `waitUntilDone(id)`, `tailLogs(id)` (async generator) |
 | `lkw.organizations` | `list`, `get`, `create`, `update`, `delete`, `listMembers`, `addMember` |
 | `lkw.projects` | `list`, `get`, `create`, `update`, `delete` |
 | `lkw.users` | `list`, `get`, `create`, `update`, `delete` |
 | `lkw.apiKeys` | `list`, `create`, `revoke` |
+| `lkw.interfaces` | `list`, `listTemplates`, `get`, `create`, `update`, `delete`, `export`, `import` |
+| `lkw.processMaps` | `list`, `get`, `create`, `update`, `delete`, `export`, `import` |
 
 Full type signatures and JSDoc available via your editor's IntelliSense.
+
+## Builders (v0.2.0)
+
+Construct workflows programmatically with the fluent `workflow()` builder
++ the `n.*` typed node helpers (covers all 25+ node types including the
+9 logistics nodes).
+
+```ts
+import { workflow, n } from '@lkw-ai/sdk';
+
+const wf = workflow('Onboarding cliente')
+  .description('Webhook → cep_lookup → enriquece → respond')
+  .add(n.httpTrigger('Receive'))
+  .add(n.cepLookup('CEP', { cep: '{{$input.body.cep}}' }))
+  .add(n.code('Format', 'return { cliente: input };'))
+  .add(n.respond())
+  .chain()
+  .build();
+
+await lkw.workflows.create(projectId, wf);
+```
+
+There's also `.branch(condition, trueChain, falseChain)` for if/else flows
+and `e.link(from, to, sourceHandle)` for manual edges.
+
+## Streaming execution logs
+
+`tailLogs()` is an async generator that yields new log entries as they
+appear and closes when the execution reaches a terminal status:
+
+```ts
+const result = await lkw.workflows.execute(workflowId, { inputData: {...} });
+for await (const log of lkw.executions.tailLogs(result.executionId)) {
+  console.log(`[${log.level}] node=${log.nodeId}: ${log.message}`);
+}
+```
+
+`waitUntilDone(id, opts)` is a simpler "block until terminal" helper.
 
 ## Options
 
