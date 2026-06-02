@@ -6,7 +6,8 @@
  *   Resource classes & types
  */
 export { LkwClient } from './client.js';
-export type { LkwOptions, LkwError, Paginated } from './types.js';
+export { LkwError } from './types.js';
+export type { LkwOptions, LkwErrorCategory, RequestTelemetry, Paginated } from './types.js';
 
 export { AuthResource } from './resources/auth.js';
 export type { LoginInput, LoginResponse } from './resources/auth.js';
