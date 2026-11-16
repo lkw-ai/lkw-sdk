@@ -28,8 +28,8 @@ describe('NodeBuilder', () => {
 
   it('builds logistics nodes', () => {
     expect(n.cepLookup('CEP').data.type).toBe('cep_lookup');
-    expect(n.routeCalculator('Rota').data.type).toBe('route_calculator');
-    expect(n.freightCalc('Frete').data.type).toBe('freight_calc');
+    expect(n.routeCalculator('Route').data.type).toBe('route_calculator');
+    expect(n.freightCalc('Freight').data.type).toBe('freight_calc');
     expect(n.vehicleCapacityCheck('Cap').data.type).toBe('vehicle_capacity_check');
   });
 });

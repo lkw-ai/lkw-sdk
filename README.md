@@ -50,7 +50,7 @@ import { workflow, n } from '@lkw-ai/sdk';
 const wf = workflow('CEP lookup + freight')
   .add(n.httpTrigger('In'))
   .add(n.cepLookup('CEP', { cep: '{{$input.body.cep}}' }))
-  .add(n.freightCalc('Frete', { distanceKm: 500, peso_kg: 1000 }))
+  .add(n.freightCalc('Freight', { distanceKm: 500, peso_kg: 1000 }))
   .add(n.respond())
   .chain()
   .build();

@@ -15,18 +15,18 @@ async function main() {
   await lkw.auth.login({ email: process.env.LKW_EMAIL!, password: process.env.LKW_PASSWORD! });
 
   // Workflow: webhook → cep_lookup → freight_calc → respond
-  const wf = workflow('Cotação de frete por CEP')
-    .description('Recebe CEP origem + destino + peso → devolve frete estimado.')
+  const wf = workflow('Freight quote by CEP')
+    .description('Receives origin CEP + destination CEP + weight → returns estimated freight.')
     .add(n.httpTrigger('Receive request'))
-    .add(n.cepLookup('Lookup CEP origem', { cep: '{{$input.body.cep_origem}}' }))
-    .add(n.cepLookup('Lookup CEP destino', { cep: '{{$input.body.cep_destino}}' }))
-    .add(n.freightCalc('Calcula frete', {
+    .add(n.cepLookup('Lookup origin CEP', { cep: '{{$input.body.cep_origem}}' }))
+    .add(n.cepLookup('Lookup destination CEP', { cep: '{{$input.body.cep_destino}}' }))
+    .add(n.freightCalc('Calculate freight', {
       distanceKm: 500, // placeholder; in prod compute via route_calculator
       peso_kg: 1000,
       uf_origem: '{{$node["2"].uf}}',
       uf_destino: '{{$node["3"].uf}}',
     }))
-    .add(n.respond('Devolve frete', { statusCode: 200 }))
+    .add(n.respond('Return freight', { statusCode: 200 }))
     .chain()
     .build();
 
