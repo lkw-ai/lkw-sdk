@@ -4,11 +4,11 @@
  *
  *   import { workflow, n } from '@lkw-ai/sdk';
  *
- *   const wf = workflow('Cadastro Cliente')
- *     .description('Onboarding cliente novo via webhook')
- *     .add(n.httpTrigger('Receber'))
- *     .add(n.code('Validar', `return input.body;`))
- *     .add(n.apiCall('Enriquecer', { url: 'https://...' }))
+ *   const wf = workflow('Customer Onboarding')
+ *     .description('Onboard a new customer via webhook')
+ *     .add(n.httpTrigger('Receive'))
+ *     .add(n.code('Validate', `return input.body;`))
+ *     .add(n.apiCall('Enrich', { url: 'https://...' }))
  *     .add(n.respond())
  *     .chain()
  *     .build();

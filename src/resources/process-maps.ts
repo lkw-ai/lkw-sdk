@@ -1,7 +1,7 @@
 /**
  * Process Maps — high-level diagrams that orchestrate multiple workflows
- * + interfaces into an end-to-end business process view (the "Catálogo de
- * Automações" sort of artifact).
+ * + interfaces into an end-to-end business process view (the "Automation
+ * Catalog" sort of artifact).
  */
 import type { HttpClient } from '../http.js';
 
